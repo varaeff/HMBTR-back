@@ -1,15 +1,20 @@
 import express, { Express, Request, Response } from "express";
+import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import cors from "cors";
 import router from "./hmbtr/routes";
+import createFightersTable from "./initDB";
 
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.APP_PORT || 3000;
+const port = process.env.APP_PORT;
 
 app.use(cors());
+app.use(bodyParser.json());
 app.use("/api/hmbtr/v1", router);
+
+createFightersTable();
 
 app.get("/", (req: Request, res: Response) => {
   res.send("HMBTR server started");
