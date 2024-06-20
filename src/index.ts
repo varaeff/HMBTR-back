@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import cors from "cors";
 import router from "./hmbtr/routes";
-import createFightersTable from "./initDB";
+import initDB from "./initDB";
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use("/api/hmbtr/v1", router);
 
-createFightersTable();
+initDB();
 
 app.get("/", (req: Request, res: Response) => {
   res.send("HMBTR server started");

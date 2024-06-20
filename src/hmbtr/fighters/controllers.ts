@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import pool from "../db";
+import pool from "../../db";
 import {
   getFightersQuery,
   getFighterQuery,
@@ -28,24 +28,32 @@ const checkFighterExists = async (
   name: string,
   surname: string,
   patronymic: string,
-  city: string
+  city_id: number
 ) => {
-  const values = [name, surname, patronymic, city];
+  const values = [name, surname, patronymic, city_id];
 
   const result: QueryResult<any> = await pool.query(checkFighterQuery, values);
   return result.rows[0].exists;
 };
 
 const addFighter = async (req: Request, res: Response) => {
-  const { name, surname, patronymic, birthday, country, city, club, pic } =
-    req.body;
+  const {
+    name,
+    surname,
+    patronymic,
+    birthday,
+    country_id,
+    city_id,
+    club_id,
+    pic,
+  } = req.body;
 
   try {
     const exists: boolean = await checkFighterExists(
       name,
       surname,
       patronymic,
-      city
+      city_id
     );
 
     if (exists) {
@@ -57,9 +65,9 @@ const addFighter = async (req: Request, res: Response) => {
       surname,
       patronymic,
       birthday,
-      country,
-      city,
-      club,
+      country_id,
+      city_id,
+      club_id,
       pic,
     ];
 
